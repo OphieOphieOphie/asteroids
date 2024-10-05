@@ -27,4 +27,4 @@ class CircleShape(pygame.sprite.Sprite):
             self.position[0], self.position[1] = self.position[0] % SCREEN_WIDTH, self.position[1] % SCREEN_HEIGHT
 
     def collision(self, target):
-        return self.position.distance_to(target) <= self.radius + PLAYER_RADIUS
+        return self.position.distance_to(target.position) <= self.radius + target.radius
