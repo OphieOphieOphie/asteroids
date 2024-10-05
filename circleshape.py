@@ -1,5 +1,5 @@
 import pygame
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_RADIUS
 
 # Base class for game objects
 class CircleShape(pygame.sprite.Sprite):
@@ -25,3 +25,6 @@ class CircleShape(pygame.sprite.Sprite):
     def pos_adjust(self):
         if not 0 <= self.position[0] <= SCREEN_WIDTH or not 0 <= self.position[1] <= SCREEN_HEIGHT:
             self.position[0], self.position[1] = self.position[0] % SCREEN_WIDTH, self.position[1] % SCREEN_HEIGHT
+
+    def collision(self, target):
+        return self.position.distance_to(target) <= self.radius + PLAYER_RADIUS

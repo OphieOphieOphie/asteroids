@@ -19,7 +19,7 @@ class Player(CircleShape):
         pygame.draw.polygon(screen, (255,255,255), self.triangle(), 2)
 
     def rotate(self, dt):
-        self.rotation += PLAYER_TURN_SPEED * (dt / 1000)
+        self.rotation += PLAYER_TURN_SPEED * dt
     
     def update(self, dt):
         keys = pygame.key.get_pressed()
@@ -33,5 +33,5 @@ class Player(CircleShape):
     
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * (dt / 1000)
+        self.position += forward * PLAYER_SPEED * (dt)
         self.pos_adjust()
