@@ -47,14 +47,26 @@ def main():
 			updatable_icon.update(dt)
 
 		for potential_collision in asteroid:
-			if not -(2 * constants.ASTEROID_MAX_RADIUS) < potential_collision.position.y <= constants.SCREEN_HEIGHT + (2 * constants.ASTEROID_MAX_RADIUS) or not -(2 * constants.ASTEROID_MAX_RADIUS) < potential_collision.position.x <= constants.SCREEN_WIDTH + (2 * constants.ASTEROID_MAX_RADIUS):
+			# out of bounds, despawn objects
+			if not -(1.1 * constants.ASTEROID_MAX_RADIUS) < potential_collision.position.y <= constants.SCREEN_HEIGHT + (1.1 * constants.ASTEROID_MAX_RADIUS) or not -(1.1 * constants.ASTEROID_MAX_RADIUS) < potential_collision.position.x <= constants.SCREEN_WIDTH + (1.1 * constants.ASTEROID_MAX_RADIUS):
 				potential_collision.kill()
+			
+			# find the first collision between an asteroid, if existent, then check no further
 			elif potential_collision.collision(player_icon):
 				start_flag = False
 				break
+
+			for potential_bounce in asteroid:
+				# asteroids now undergo perfectly elastic collisions, resulting in ricochets
+				if potential_collision.collision(potential_bounce):
+					potential_collision.bounce(potential_bounce)
+					break
+
 			for potential_destruction in shots:
+				# out of bounds, despawn objects
 				if not -5 <= potential_destruction.position.y <= constants.SCREEN_HEIGHT + 5 or not -5 < potential_destruction.position.x <= constants.SCREEN_WIDTH + 5:
 					potential_destruction.kill()
+				# destroy both the shot and the asteroid, split the asteroid if possible
 				elif potential_destruction.collision(potential_collision):
 					potential_collision.split(), potential_collision.kill(), potential_destruction.kill()
 
